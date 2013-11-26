@@ -104,7 +104,7 @@ module I18n
 
       File.open(file, "w+") do |f|
         f << %(I18n.translations = );
-        f << translations.sort.to_json
+        f << Hash[translations.sort].to_json
         f << %(;)
       end
     end
