@@ -102,11 +102,22 @@ module I18n
     def self.save(translations, file)
       FileUtils.mkdir_p File.dirname(file)
 
+      translations = deep_sort(translations)
+
       File.open(file, "w+") do |f|
         f << %(I18n.translations = );
-        f << Hash[translations.sort].to_json
+        f << translations.to_json
         f << %(;)
       end
+    end
+
+    def self.deep_sort(hash) # FUCK YEAH
+      return hash unless hash.is_a?(Hash)
+      new_hash = Hash.new
+      hash.keys.sort.each do |k|
+        new_hash[k] = deep_sort(hash[k])
+      end
+      new_hash
     end
 
     def self.scoped_translations(scopes) # :nodoc:
