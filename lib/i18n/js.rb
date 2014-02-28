@@ -107,7 +107,7 @@ module I18n
       File.open(file, "w+") do |f|
         f << %(I18n.translations || (I18n.translations = {});)
         translations.each do |k, v|
-          f << %(;I18n.translations.#{k} = #{v.to_json};)
+          f << %(;I18n.translations["#{k}"] = #{v.to_json};)
         end
       end
     end
